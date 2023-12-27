@@ -1,0 +1,16 @@
+name: Order Orchestration
+metadata:
+    retry_policy:
+      init_interval: 1
+      backoff_coefficient: 2
+      max_interval: 100
+      max_attempts: 10
+    version: 1.0
+dependencies:
+steps:
+{% if demo %}
+  - name: Check Service Status
+    file: activities/check_service_status.yaml
+{% endif %}
+  - name: Update Network
+    file: activities/update_network.yaml

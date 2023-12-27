@@ -1,0 +1,25 @@
+name: Check Service Status
+description: Get service status from upstream system and verify its status
+metadata:
+  retry_policy:
+    init_interval: 1
+    backoff_coefficient: 2
+    max_interval: 100
+    max_attempts: 3
+    start_to_close_timeout: 10
+configType: REST
+credentials:
+  username: "{{config_ms.username}}"
+  password: "{{config_ms.password}}"
+request:
+  url: http://{{pe.config_server_ip}}:{{pe.config_server_port}}/config/{{correlationID}}
+  method: GET
+  headers:
+    Accept: application/json
+    Content-Type: application/json
+response:
+  status_code: 200
+  variables:
+    vrf: json.$.vrf
+    route_map: json.$.route-map
+    ip_prefix_list: json.$.ip-prefix-list
